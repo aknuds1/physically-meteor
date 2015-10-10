@@ -1,0 +1,9 @@
+.pure-g
+  .pure-u-1
+    #explore-pad
+      .search-box
+        input#explore-search-input(placeholder="Search Physically", value=searchQuery)
+        if hasSearchQuery
+          span#explore-clear-search.clear-icon.icon-cross.muted
+      if isEmpty
+        p No results were returned.
