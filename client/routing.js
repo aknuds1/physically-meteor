@@ -11,5 +11,5 @@ Router.route('/', function () {
   this.render('explore')
 }, {
   name: 'home',
-  // waitOn: () => { return Meteor.subscribe('filteredProjects', Session.get('searchQuery')) },
+  waitOn: () => { return Meteor.subscribe('filteredPractitioners', Session.get('searchQuery')) },
 })

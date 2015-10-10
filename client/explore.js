@@ -18,7 +18,7 @@ Template.explore.events({
   },
   'keyup #explore-search-input': (event) => {
     if (event.keyCode === 13) {
-      // searchService.search(Session.get('explore.searchQuery'))
+      SearchService.search(Session.get('explore.searchQuery'))
     }
   },
   'click #explore-clear-search': () => {

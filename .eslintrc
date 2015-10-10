@@ -5,7 +5,9 @@
     commonjs: true
   globals:
   rules:
-    eqeqeq: 2
+    eqeqeq:
+      - 2
+      - "smart"
     strict:
       - 2
       - "global"
