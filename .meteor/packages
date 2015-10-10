@@ -24,3 +24,4 @@ iron:router
 jag:pince
 agustino:purecss
 stoeffel:underscore.string.fp
+frozeman:template-var

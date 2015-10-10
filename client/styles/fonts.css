@@ -1,11 +1,11 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot?m60gt9');
-	src:url('fonts/icomoon.eot?m60gt9#iefix') format('embedded-opentype'),
-		url('fonts/icomoon.woff2?m60gt9') format('woff2'),
-		url('fonts/icomoon.ttf?m60gt9') format('truetype'),
-		url('fonts/icomoon.woff?m60gt9') format('woff'),
-		url('fonts/icomoon.svg?m60gt9#icomoon') format('svg');
+	src:url('fonts/icomoon.eot?4bin6o');
+	src:url('fonts/icomoon.eot?4bin6o#iefix') format('embedded-opentype'),
+		url('fonts/icomoon.woff2?4bin6o') format('woff2'),
+		url('fonts/icomoon.ttf?4bin6o') format('truetype'),
+		url('fonts/icomoon.woff?4bin6o') format('woff'),
+		url('fonts/icomoon.svg?4bin6o#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -24,9 +24,21 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-user:before {
+	content: "\eaf4";
+}
 .icon-search2:before {
 	content: "\eb30";
 }
+.icon-pulse2:before {
+	content: "\eb6d";
+}
+.icon-menu3:before {
+	content: "\ec6a";
+}
 .icon-cross2:before {
 	content: "\ed6a";
+}
+.icon-arrow-down5:before {
+	content: "\edc6";
 }

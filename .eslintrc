@@ -13,7 +13,7 @@
       - "global"
     comma-dangle:
       - 2
-      - "always"
+      - "always-multiline"
     quotes:
       - 2
       - "single"
