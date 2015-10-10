@@ -1,0 +1,36 @@
+@require 'common.import'
+
+#explore-pad
+  pad-base()
+
+  margin 25px
+  margin-bottom 0
+  padding 20px
+
+  .search-box
+    position relative
+    box-sizing border-box
+    margin-bottom 33px
+
+    .search-icon
+      top 6px
+      left 6px
+      position absolute
+      cursor pointer
+
+    #explore-search-input
+      border 1px solid #BDBDBD
+      box-shadow 2px 2px 6px 0px #C1C1C1
+      padding-left 28px
+      padding-right 28px
+      box-sizing border-box
+      width 500px
+
+    &:focus
+      outline: none
+
+    .clear-icon
+      top 6px
+      right 585px
+      position absolute
+      cursor pointer

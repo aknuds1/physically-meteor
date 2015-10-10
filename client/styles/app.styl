@@ -1,0 +1,76 @@
+@require 'common.import'
+
+body
+  background-color body-background
+  color black
+
+a
+  color blue-color
+  &:focus
+    outline none
+
+article
+  background linear-gradient(to bottom, #d2d2d2, #E8E8E8 40%, body-background)
+
+#content
+  padding-bottom 60px
+
+  // TODO: Make responsive
+  width 1170px
+  margin-left auto
+  margin-right auto
+  border-radius 10px
+  padding-top 36px
+  padding-left 0px
+  padding-right 0px
+
+#menu
+  z-index 1000
+  border-bottom 0px
+  background-color menu-background
+  .pure-menu-heading
+    color menu-color
+    margin-top 0.2em
+    a
+      color menu-color
+      padding 0
+      border-width 0
+
+  a
+    color menu-color
+    &:focus
+      background-color: menu-background
+    &:hover
+      background-color rgb(51, 51, 51)
+
+  li
+    &.pure-menu-selected
+      a
+        background-color #111111
+        -webkit-box-shadow inset 0 3px 8px rgba(0, 0, 0, 0.125)
+        -moz-box-shadow inset 0 3px 8px rgba(0, 0, 0, 0.125)
+        box-shadow inset 0 3px 8px rgba(0, 0, 0, 0.125)
+        color menu-color
+
+footer
+  border-top 1px solid border-color
+  padding 1em
+  text-align center
+  font-size 80%
+
+.upper
+  text-transform uppercase
+
+.small
+  font-size 11px
+
+.border-btm
+  border-bottom 1px solid border-color
+
+input
+  rounded-corners()
+  
+  background-color content-background
+  color black
+  border-color black
+  padding 4px

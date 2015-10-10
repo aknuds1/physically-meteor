@@ -24,3 +24,4 @@ stylus
 iron:router
 jag:pince
 agustino:purecss
+stoeffel:underscore.string.fp
