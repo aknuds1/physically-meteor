@@ -8,12 +8,18 @@ let showSearchAxisPicker = (show, template) => {
   if (show) {
     logger.debug('Showing search axis picker')
     axisPicker.classList.remove('hidden')
-    axisToggler.style['border-bottom-left-radius'] = 0
+    axisToggler.style['border-bottom-left-radius'] = '0px'
   } else {
     logger.debug('Hiding search axis picker')
     axisPicker.classList.add('hidden')
-    axisToggler.style['border-bottom-left-radius'] = 4
+    axisToggler.style['border-bottom-left-radius'] = '4px'
   }
+}
+
+let axis2Icon = {
+  'all': 'icon-menu3',
+  'people': 'icon-user',
+  'specialties': 'icon-pulse2',
 }
 
 function selectSearchAxis(axis, event, template) {
@@ -28,6 +34,12 @@ function selectSearchAxis(axis, event, template) {
       item.classList.remove('selected')
     }
   }, axisItems)
+  let iconElem = template.find('#search-axis-toggler-icon')
+  let iconClass = R.filter((cls) => {
+    return /^icon-.+$/.test(cls)
+  }, iconElem.classList)[0]
+  iconElem.classList.remove(iconClass)
+  iconElem.classList.add(axis2Icon[axis])
   return false
 }
 
@@ -61,7 +73,7 @@ Template.explore.events({
   },
   'keyup #explore-search-input': (event) => {
     if (event.keyCode === 13) {
-      SearchService.search(Session.get('explore.searchQuery'))
+      SearchService.search(Session.get('explore.searchQuery'), TemplateVar.get('searchAxis'))
     }
   },
   'click #explore-clear-search': () => {
