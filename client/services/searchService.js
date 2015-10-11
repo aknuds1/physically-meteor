@@ -2,11 +2,21 @@
 let logger = new Logger('SearchService')
 
 class SearchService {
-  static search(query, axis) {
+  static search(options) {
+    options = options || {}
+    let {query, axis} = options
     query = query || ''
-    axis = axis || 'all'
+    axis = axis || ''
     logger.debug(`Searching for '${query}' along axis ${axis}`)
-    Router.go('home', {}, !S.isBlank(query) ? {query: `query=${query}`} : {})
+    let queryObj = {}
+    if (!S.isBlank(query)) {
+      queryObj.query = query
+    }
+    if (!S.isBlank(axis)) {
+      queryObj.axis = axis
+    }
+    logger.debug('queryObj:', queryObj)
+    Router.go('home', {}, {query: queryObj})
   }
 }
 this.SearchService = SearchService

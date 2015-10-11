@@ -2,9 +2,11 @@
 let logger = new Logger('publications')
 
 Meteor.publish('practitioners', () => {return Practitioners.find()})
-Meteor.publish('filteredPractitioners', (query) => {
+Meteor.publish('filteredPractitioners', (options) => {
   let selector = {}
   let sort = undefined
+  let {query, axis} = options || {}
+  axis = axis || 'all'
   if (!S.isBlank(query)) {
     let reTag = /\[[^\]]*\]/g
     let queryWithoutTags = ''
@@ -27,28 +29,23 @@ Meteor.publish('filteredPractitioners', (query) => {
 
     logger.debug('Filtering practitioners')
     if (!S.isBlank(queryWithoutTags)) {
-      logger.debug(`Query: '${queryWithoutTags}'`)
-      selector.$text = {'$search': queryWithoutTags,}
-      sort = {
-        //Project each document to include a property named 'score', which contains the document's
-        //search rank
-        fields: {
-          score: { $meta: 'textScore', },
-        },
-        // Indicates that we wish the publication to be sorted by document score
-        sort: {
-          score: { $meta: 'textScore', },
-        },
+      logger.debug(`Query: '${queryWithoutTags}', axis: '${axis}'`)
+      let selectors = []
+      let queryArray = new RegExp(S.join('|', S.words(queryWithoutTags)), 'i')
+      logger.debug('queryArray', queryArray)
+      if (axis === 'all' || axis === 'people') {
+        selectors.push({names: {$regex: queryArray}})
+      } if (axis === 'all' || axis === 'specialties') {
+        selectors.push({specialties: {$regex: queryArray}})
       }
-    }
-    if (!R.isEmpty(tags)) {
-      logger.debug('Tags:', tags)
-      selector.tags = {$all: tags,}
-    } else {
-      logger.debug('No tags')
+      selector = {
+        $or: selectors,
+      }
     }
   } else {
     logger.debug('Searching without query')
   }
-  return Practitioners.find(selector, sort)
+  logger.debug('Selector:', selector)
+
+  return Practitioners.find(selector)
 })

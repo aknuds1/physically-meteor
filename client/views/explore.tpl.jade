@@ -3,16 +3,13 @@
     #explore-pad
       .search-container
         span#search-axis-toggler
-          span#search-axis-toggler-icon.icon-menu3
+          span#search-axis-toggler-icon(class=searchAxisPickerClass)
           span.icon-arrow-down5
           #search-axis-picker.hidden
             ul
-              li#search-axis-all.selected
-                span All
-              li#search-axis-people
-                span.icon-user People
-              li#search-axis-specialties
-                span.icon-pulse2 Specialties
+              each searchAxisItems
+                li(id=id, class=itemClass)
+                  span(class=iconClass) #{title}
         .search-box
           span#explore-do-search.search-icon.icon-search2.muted
           input#explore-search-input(placeholder="Search #{searchAxis}", value=searchQuery)
@@ -24,4 +21,4 @@
         ul.practitioner-results
           each practitioners
             li.practitioner-item
-              .practitioner-name #{name}
+              .practitioner-name #{fullName}

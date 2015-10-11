@@ -7,7 +7,9 @@ Router.configure({
   trackPageView: true,
 })
 Router.route('/', function () {
-  Session.set('searchQuery', this.params.query.query)
+  logger.debug(`Setting search query`)
+  Session.set('searchQuery', {query: this.params.query.query, axis: this.params.query.axis})
+  Session.set('explore.searchQuery', this.params.query.query)
   this.render('explore')
 }, {
   name: 'home',
