@@ -27,25 +27,6 @@ function selectSearchAxis(axis, event, template) {
   let query = router.params.query
   SearchService.search({query: query.query, axis: axis})
   return false
-  // logger.debug(`Setting searchQuery: '${query.query}', axis: '${query.axis}'`)
-  // Session.set('searchQuery', {query: query.query, axis: axis})
-  // showSearchAxisPicker(false, template)
-  // logger.debug(`Selected axis '${axis}'`)
-  // let axisItems = template.find('#search-axis-picker ul').children
-  // R.forEach((item) => {
-  //   if (item.id === `search-axis-${axis}`) {
-  //     item.classList.add('selected')
-  //   } else {
-  //     item.classList.remove('selected')
-  //   }
-  // }, axisItems)
-  // let iconElem = template.find('#search-axis-toggler-icon')
-  // let iconClass = R.filter((cls) => {
-  //   return /^icon-.+$/.test(cls)
-  // }, iconElem.classList)[0]
-  // iconElem.classList.remove(iconClass)
-  // iconElem.classList.add(axis2Icon[axis])
-  // return false
 }
 
 let getSearchAxis = () => {
@@ -54,7 +35,7 @@ let getSearchAxis = () => {
 
 Template.explore.helpers({
   isEmpty: () => {
-    return Practitioners.findOne() == null
+    return R.isEmpty(Practitioners)
   },
   hasSearchQuery: () => {
     return !S.isBlank(trimWhitespace(Session.get('explore.searchQuery')))
@@ -63,7 +44,7 @@ Template.explore.helpers({
     return Session.get('explore.searchQuery')
   },
   practitioners: () => {
-    return Practitioners.find({}, {sort: [['created', 'desc']]})
+    return R.sortBy((p) => {return p.name}, Practitioners)
   },
   searchAxis: () => {
     let searchAxis = Session.get('searchQuery').axis
@@ -117,7 +98,8 @@ Template.explore.events({
   },
   'keyup #explore-search-input': (event) => {
     if (event.keyCode === 13) {
-      SearchService.search({query: Session.get('explore.searchQuery'), axis: Session.get('searchQuery').axis})
+      SearchService.search({query: Session.get('explore.searchQuery'),
+        axis: Session.get('searchQuery').axis})
     }
   },
   'click #explore-clear-search': () => {

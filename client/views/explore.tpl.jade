@@ -21,4 +21,8 @@
         ul.practitioner-results
           each practitioners
             li.practitioner-item
-              .practitioner-name #{fullName}
+              .practitioner-image
+                img(src=img width="100" height="100")
+              div
+                .practitioner-name #{name}
+                .practitioner-summary #{summary}
