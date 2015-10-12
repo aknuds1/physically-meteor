@@ -1,6 +1,8 @@
 'use strict'
 let logger = new Logger('explore')
 
+let searchTimeoutHandle = null
+
 let showSearchAxisPicker = (show, template) => {
   let axisPicker = template.find('#search-axis-picker')
   let axisToggler = template.find('#search-axis-toggler')
@@ -25,7 +27,7 @@ let axis2Icon = {
 function selectSearchAxis(axis, event, template) {
   let router = Router.current()
   let query = router.params.query
-  SearchService.search({query: query.query, axis: axis})
+  SearchService.search(query.query, axis)
   return false
 }
 
@@ -38,13 +40,32 @@ Template.explore.helpers({
     return R.isEmpty(Practitioners)
   },
   hasSearchQuery: () => {
-    return !S.isBlank(trimWhitespace(Session.get('explore.searchQuery')))
+    return !S.isBlank(trimWhitespace(Session.get('searchQuery').query))
   },
   searchQuery: () => {
-    return Session.get('explore.searchQuery')
+    return Session.get('searchQuery').query
   },
   practitioners: () => {
-    return R.sortBy((p) => {return p.name}, Practitioners)
+    let query = Session.get('searchQuery')
+    let axis = query.axis
+    let searchTerms = S.words(query.query || '')
+    logger.debug(`Search terms of ${query.query}:`, searchTerms)
+    let reSearchTerms = new RegExp(`${S.join('|', searchTerms)}`, 'i')
+    return R.sortBy((p) => {return p.name},
+      R.filter((p) => {
+        let matches = false
+        if (axis === 'all' || axis === 'people') {
+          logger.debug('Matching on people')
+          let names = S.words(p.name)
+          matches |= R.any((name) => {return reSearchTerms.test(name)}, names)
+        }
+        if (axis === 'all' || axis === 'specialties') {
+          logger.debug('Matching on specialties')
+          matches |= R.any((specialty) => {return reSearchTerms.test(specialty)}, p.areas)
+        }
+        logger.debug(`${p.name} matches: ${matches}`)
+        return matches
+      }, Practitioners))
   },
   specialtiesStr: function () {
     return S.join(', ', this.areas)
@@ -95,19 +116,18 @@ Template.explore.helpers({
 Template.explore.events({
   'input #explore-search-input': (event) => {
     let searchQuery = trimWhitespace(event.target.value)
-    logger.debug('Input, setting searchQuery:', searchQuery)
-    Session.set('explore.searchQuery', searchQuery)
-    return false
-  },
-  'keyup #explore-search-input': (event) => {
-    if (event.keyCode === 13) {
-      SearchService.search({query: Session.get('explore.searchQuery'),
-        axis: Session.get('searchQuery').axis})
+    if (searchTimeoutHandle != null) {
+      clearTimeout(searchTimeoutHandle)
     }
+    searchTimeoutHandle = setTimeout(() => {
+      let query = Session.get('searchQuery')
+      SearchService.search(searchQuery, query.axis)
+    }, 500)
+    return false
   },
   'click #explore-clear-search': () => {
     logger.debug('Clear search')
-    Session.set('explore.searchQuery', null)
+    SearchService.clearSearch()
     document.getElementById('explore-search-input').focus()
   },
   'click #search-axis-toggler': (event, template) => {
