@@ -46,12 +46,6 @@ Template.explore.helpers({
   practitioners: () => {
     return R.sortBy((p) => {return p.name}, Practitioners)
   },
-  specialtiesStr: function () {
-    return S.join(', ', this.areas)
-  },
-  institute: () => {
-    return 'NIMI'
-  },
   searchAxis: () => {
     let searchAxis = Session.get('searchQuery').axis
     if (searchAxis === 'all') {
@@ -86,6 +80,9 @@ Template.explore.helpers({
         icon: 'pulse2',
       },
     ])
+  },
+  fullName: function () {
+    return S.join(' ', this.names)
   },
   searchAxisPickerClass: () => {
     let selectedAxis = getSearchAxis()
