@@ -27,6 +27,7 @@ let axis2Icon = {
 function selectSearchAxis(axis, event, template) {
   let router = Router.current()
   let query = router.params.query
+  showSearchAxisPicker(false, template)
   SearchService.search(query.query, axis)
   return false
 }
@@ -132,7 +133,6 @@ Template.explore.events({
   },
   'click #search-axis-toggler': (event, template) => {
     let showPicker = !TemplateVar.get('showSearchAxisPicker')
-    TemplateVar.set('showSearchAxisPicker', showPicker)
     showSearchAxisPicker(showPicker, template)
     return false
   },
