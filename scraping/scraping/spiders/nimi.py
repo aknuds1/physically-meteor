@@ -51,7 +51,7 @@ class NimiSpider(scrapy.Spider):
         self.logger.info('Parsing')
         for collection in response.css('.collectionBoxItem'):
             text = collection.css('h2 > a::text').extract()[0].encode('utf-8')
-            if text == 'Fysioterapeuter':
+            if text in ['Fysioterapeuter', 'Manuellterapeuter']:
                 self.logger.info('Collection text: {}'.format(text))
                 for url in collection.xpath('ul/li/a/@href').extract():
                     abs_url = response.urljoin(url)
