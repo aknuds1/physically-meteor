@@ -14,7 +14,7 @@ class NimiSpider(scrapy.Spider):
             main_content = response.xpath(
                 '//*[contains(concat(" ", normalize-space(@class), " "), " mainContent ")]')
             name = main_content.xpath('h2/text()').extract_first()
-            img = response.urljoin(main_content.xpath('h2/img/@src').extract_first())
+            img = main_content.xpath('h2/img/@src').extract_first()
             summary = main_content.xpath('h4[1]/text()').extract_first()
             phone = main_content.xpath('h4[2]/text()').extract_first()
             email = main_content.xpath('h4[2]/a/text()').extract_first()
