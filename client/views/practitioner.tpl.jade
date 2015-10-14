@@ -1,0 +1,16 @@
+.pure-g
+  .pure-u-1
+    #practitioner-pad
+      #practitioner-heading
+        #practitioner-picture
+          img(src=img width="200" height="200")
+        div
+          h1#practitioner-name #{name}
+          #practitioner-summary #{summary}
+          #practitioner-phonenumber Telephone: #{phone}
+          #practitioner-description #{description}
+      #practitioner-specialties
+        h2 Specialties
+        ul
+          each areas
+            li.practitioner-specialty #{this} &nbsp;

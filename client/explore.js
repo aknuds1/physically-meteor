@@ -52,6 +52,9 @@ Template.explore.helpers({
     let searchTerms = S.words(query.query || '')
     logger.debug(`Search terms of ${query.query}:`, searchTerms)
     let reSearchTerms = new RegExp(`${S.join('|', searchTerms)}`, 'i')
+    let mappedPractitioners = R.addIndex(R.map)((p, i) => {
+      return R.merge(p, {id: i})
+    }, Practitioners)
     return R.sortBy((p) => {return p.name},
       R.filter((p) => {
         let matches = false
@@ -64,9 +67,8 @@ Template.explore.helpers({
           logger.debug('Matching on specialties')
           matches |= R.any((specialty) => {return reSearchTerms.test(specialty)}, p.areas)
         }
-        logger.debug(`${p.name} matches: ${matches}`)
         return matches
-      }, Practitioners))
+      }, mappedPractitioners))
   },
   specialtiesStr: function () {
     return S.join(', ', this.areas)

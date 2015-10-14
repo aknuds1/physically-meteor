@@ -15,3 +15,14 @@ Router.route('/', function () {
   name: 'home',
   // waitOn: () => { return Meteor.subscribe('filteredPractitioners', Session.get('searchQuery')) },
 })
+Router.route('/p/:id', function () {
+  this.render('practitioner')
+}, {
+  name: 'practitioner',
+  data: function () {
+    let id = parseInt(this.params.id)
+    return R.addIndex(R.find)((p, i) => {
+      return i === id
+    }, Practitioners)
+  },
+})
