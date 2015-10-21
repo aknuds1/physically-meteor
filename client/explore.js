@@ -138,7 +138,7 @@ Template.explore.events({
     showSearchAxisPicker(showPicker, template)
     return false
   },
-  'click #search-axis-all': R.partial(selectSearchAxis, 'all'),
-  'click #search-axis-people': R.partial(selectSearchAxis, 'people'),
-  'click #search-axis-specialties': R.partial(selectSearchAxis, 'specialties'),
+  'click #search-axis-all': R.partial(selectSearchAxis, ['all']),
+  'click #search-axis-people': R.partial(selectSearchAxis, ['people']),
+  'click #search-axis-specialties': R.partial(selectSearchAxis, ['specialties']),
 })
