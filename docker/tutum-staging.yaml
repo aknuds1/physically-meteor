@@ -19,20 +19,8 @@ physically-staging:
   tags:
     - physically-staging
   autorestart: always
-nginx-staging:
-  image: aknudsen/meteor-frontend-server
-  command: /start.sh
-  tags:
-    - physically-staging
-  autorestart: always
   ports:
-    - "443:443"
     - "80:80"
-  volumes:
-    - /etc/nginx/ssl/bundle.crt:/bundle.crt
-    - /etc/nginx/ssl/private.key:/private.key
-  links:
-    - physically-staging:backend
 logspout-staging:
   image: gliderlabs/logspout
   command: syslog://logs3.papertrailapp.com:19740
